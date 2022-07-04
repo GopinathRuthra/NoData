@@ -1,0 +1,180 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>DataTable Inline Editing using Python Flask MySQLdb jquery ajax and X-Editable</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>  
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
+
+        <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+        
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+    var dataTable = $('#sample_data').DataTable({
+               
+               dom: 'Bfrtip',
+               buttons: [
+                   {
+                       extend: 'excelHtml5',
+                       title: 'Excel',
+                       text:'Export to excel'
+                       //Columns to export
+                       //exportOptions: {
+                      //     columns: [0, 1, 2, 3,4,5,6]
+                      // }
+                   },
+                   {
+                       extend: 'pdfHtml5',
+                       title: 'PDF',
+                       text: 'Export to PDF'
+                       //Columns to export
+                       //exportOptions: {
+                      //     columns: [0, 1, 2, 3, 4, 5, 6]
+                     //  }
+                   }
+               ]
+           });
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.GID',
+        url:'/updateemployee',
+        title:'GID',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+ 
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.Emp_Name',
+        url:'/updateemployee',
+        title:'Emp_Name',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+ 
+    $('#sample_data').editable({
+        container:'body',
+        selector:'td.Band',
+        url:'/updateemployee',
+        title:'Band',
+        type:'POST',
+        validate:function(value){
+            if($.trim(value) == '')
+            {
+                return 'This field is required';
+            }
+        }
+    });
+}); 
+</script>
+    </head>
+    <body>
+        <div class="container">
+            <h3 align="center">DataTable Inline Editing using Python Flask MySQLdb jquery ajax and X-Editable</h3>
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-heading">DataTable</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="sample_data" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Global ID</th>  
+                                    <th>Name </th>  
+                                    <th>Band </th>  
+                                    <!-- <th>Cost center Name</th>  
+                                    <th>Cost center ID</th>  
+                                    <th>Date Of Joining</th>  
+                                    <th>Work Email</th>  
+                                    <th>Manager </th>  
+                                    <th>Band change date</th>  
+                                    <th>Lead </th>  
+                                    <th>AGM / VP Name</th>  
+                                    <th>Job Role </th>  
+                                    <th>Trainer's Name </th>  
+                                    <th>You are SPOC</th>  
+                                    <th>Core Process</th>  
+                                    <th>Sub Process</th>  
+                                    <th>Higher Qualification</th>  
+                                    <th>Gender </th>  
+                                    <th>Date Of Birth</th>  
+                                    <th>SEGMENT</th>   
+                                    <th>Previous Team </th>  
+                                    <th>Vaccine Action Plan </th>  
+                                    <th>Vaccinated Status</th>  
+                                    <th>Vaccination Certificate Uploaded in Workday</th>  
+                                    <th>Accomodation </th>  
+                                    <th>Personal Email</th>  
+                                    <th>Insurance Type</th>  
+                                    <th>Emergency Contact Name</th>  
+                                    <th>Emergency Contact Number </th>  
+                                    <th>Contact Name</th>  
+                                    <th>Marital Status</th>  
+                                    <th>Mode of Transport</th>  
+                                    <th>Distance from Office</th>  
+                                    <th>Pickup Point</th>  
+                                    <th>Residential Address</th>  
+                                    <th>City - Pin</th>  
+                                    <th>Native - State</th>  
+                                    <th>Native - District</th>  
+                                    <th>Type of Asset</th> 
+                                    <th>CPU/ Laptop (Serial No.)</th>  
+                                    <th>Docking Station (Serial No.) </th>  
+                                    <th>Monitor 1 (Serial No.)</th>  
+                                    <th>Monitor 2 (Serial No.)</th>  
+                                    <th>Desk No.</th>  
+                                    <th>Dual Moniter SetUp</th>  
+                                    <th>Internet availability</th>  
+                                    <th>Head Phone availability</th>  
+                                    <th>Additional Key Board</th>  
+                                    <th>Additional Mouse </th>  
+                                    <th>UPS for the backup</th>  
+                                    <th>Proper Table availability</th>  
+                                    <th>Proper Chair availability</th>  
+                                    <th>Spike Buster</th>  -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in employee %}
+                                <tr>
+                                    <td data-pk="{{row.id}}">{{row.id}}</td>
+                                    <!-- <td data-name="name" class="name" data-type="text" data-pk="{{row.id}}">{{row.name}}</td>
+                                    <td data-name="email" class="email" data-type="text" data-pk="{{row.id}}">{{row.email}}</td>
+                                    <td data-name="phone" class="phone" data-type="text" data-pk="{{row.id}}">{{row.phone}}</td> -->
+                                    <td data-name="GID" class="GID" data-pk="{{row.id}}">{{row.GID}}</td>
+                                    <td data-name="Emp_Name" class="Emp_Name" data-type="text" data-pk="{{row.id}}">{{row.Emp_Name}}</td>
+                                    <td data-name="Band" class="Band" data-type="text" data-pk="{{row.id}}">{{row.Band}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+    </body>
+</html>
